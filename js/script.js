@@ -39,9 +39,24 @@ function toggleButton(id) {
   //   console.log("current btn: ", id);
   const selected = document.getElementById(id);
 
+  currentStatus = id;
+
   // add bg color for current button
   selected.classList.remove("bg-transparent", "text-[#64748B]");
   selected.classList.add("bg-[#3B82F6]", "text-white");
+
+  // filtering button
+  if (id == "interview-btn") {
+    allCards.classList.add("hidden");
+    filterSection.classList.remove("hidden");
+    renderThriving();
+  } else if (id == "all-btn") {
+    allCards.classList.remove("hidden");
+    filterSection.classList.add("hidden");
+  } else if (id == "rejected-btn") {
+    allCards.classList.add("hidden");
+    filterSection.classList.remove("hidden");
+  }
 }
 
 // event delegation
@@ -60,12 +75,14 @@ mainContainer.addEventListener("click", function (event) {
     const rejectedBtn = parentNode.querySelector(".rejected-btn").innerText;
     //   console.log(interviewBtn, rejectedBtn);
 
+    parentNode.querySelector(".card-badge").innerText = "Interview";
+
     // create object
     cardInfo = {
       cardHeader,
       cardSubHeader,
       jobStatus,
-      cardBadge,
+      cardBadge: "Interview",
       badgeDesc,
       interviewBtn,
       rejectedBtn,
@@ -76,12 +93,6 @@ mainContainer.addEventListener("click", function (event) {
     const headerExist = interviewList.find(function (item) {
       return item.cardHeader == cardInfo.cardHeader;
     });
-
-    const badgeStatus = parentNode.querySelector(".card-badge");
-
-    badgeStatus.innerText = "Interview";
-    badgeStatus.className =
-      "text-sm md:text-[16px] text-[#002C5C] font-medium border border-[#10B981] text-[#10B981] py-2 px-3 rounded-md uppercase";
 
     if (!headerExist) {
       interviewList.push(cardInfo);
@@ -106,25 +117,24 @@ function renderInterview() {
             <!-- card heading -->
             <div>
               <h3 class="card-header text-[#002C5C] text-xl font-medium">
-                Mobile First Corp
+                ${interview.cardHeader}
               </h3>
               <p class="card-sub-header text-[#64748B]">
-                React Native Developer
+                ${interview.cardSubHeader}
               </p>
             </div>
 
             <p class="job-status text-sm md:text-[16px] text-[#64748B]">
-              Remote • Full-time • $130,000 - $175,000
+             ${interview.jobStatus}
             </p>
 
             <div>
               <span
                 class="card-badge text-sm md:text-[16px] text-[#002C5C] font-medium bg-[#EEF4FF] py-2 px-3 rounded-md uppercase"
-                >Not Applied</span
+                >${interview.cardBadge}</span
               >
               <p class="badge-desc text-sm md:text-[16px] text-[#323B49] mt-3">
-                Build cross-platform mobile applications using React Native.
-                Work on products used by millions of users worldwide.
+                ${interview.badgeDesc}
               </p>
             </div>
 
