@@ -4,6 +4,275 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Job Tracker</title>
+    <!-- Google Font - Geist -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind+Daisy UI CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Font awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      * {
+        font-family: "Geist", sans-serif;
+      }
+    </style>
   </head>
-  <body></body>
+  <body class="bg-cyan-50 min-h-screen pb-32 px-4 md:px-0">
+    <header class="max-w-[1110px] mx-auto pt-14">
+      <h1 class="text-3xl font-bold text-[#002C5C]">Job Application Tracker</h1>
+      <div
+        class="tracker-card-container py-5 grid grid-cols-1 md:grid-cols-3 gap-4"
+      >
+        <div class="total p-5 bg-white rounded-xl shadow">
+          <p class="font-medium">Total</p>
+          <h3 id="total-count" class="text-[#002C5C] text-2xl font-medium">
+            0
+          </h3>
+        </div>
+        <div class="interview p-5 bg-white rounded-xl shadow">
+          <p class="font-medium">Interview</p>
+          <h3 id="interview-count" class="text-[#10B981] text-2xl font-medium">
+            0
+          </h3>
+        </div>
+        <div class="rejected p-5 bg-white rounded-xl shadow">
+          <p class="font-medium">Rejected</p>
+          <h3 id="reject-count" class="text-[#EF4444] text-2xl font-medium">
+            0
+          </h3>
+        </div>
+      </div>
+      <hr class="border border-[#E6E7E9] my-5" />
+    </header>
+
+    <!-- Available Jobs -->
+    <section class="max-w-[1110px] mx-auto pt-7">
+      <!-- Section heading -->
+      <div class="section-heading flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-medium text-[#002C5C]">Available Jobs</h1>
+        <p><span id="job-count">8</span> jobs</p>
+      </div>
+      <div class="flex gap-2 mb-6">
+        <button class="btn bg-[#3B82F6] text-white w-20">All</button>
+        <button class="btn bg-[#3B82F6] text-white w-20">Interview</button>
+        <button class="btn bg-[#3B82F6] text-white w-20">Rejected</button>
+      </div>
+
+      <!-- All Cards -->
+      <section id="main" class="space-y-4">
+        <!-- Card 1 -->
+        <div class="bg-white p-6 flex justify-between rounded-xl">
+          <div class="space-y-5">
+            <!-- card heading -->
+            <div class="card-heading">
+              <h3 class="text-[#002C5C] text-xl font-medium">
+                Mobile First Corp
+              </h3>
+              <p class="text-[#64748B]">React Native Developer</p>
+            </div>
+
+            <p class="text-sm md:text-[16px] text-[#64748B]">
+              Remote • Full-time • $130,000 - $175,000
+            </p>
+
+            <div class="badge-desc">
+              <span
+                class="text-sm md:text-[16px] text-[#002C5C] font-medium bg-[#EEF4FF] py-2 px-3 rounded-md uppercase"
+                >Not Applied</span
+              >
+              <p class="text-sm md:text-[16px] text-[#323B49] mt-3">
+                Build cross-platform mobile applications using React Native.
+                Work on products used by millions of users worldwide.
+              </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons flex gap-2">
+              <button
+                class="btn border border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white"
+              >
+                Interview
+              </button>
+              <button
+                class="btn border border-[#EF4444] text-[#EF4444] hover:bg-[#EF4444] hover:text-white"
+              >
+                Rejected
+              </button>
+            </div>
+          </div>
+          <div>
+            <button
+              id="delete-btn"
+              class="btn w-8 h-8 border border-[#F1F2F4] bg-transparent p-2 rounded-full"
+            >
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white p-6 flex justify-between rounded-xl">
+          <div class="space-y-5">
+            <!-- card heading -->
+            <div class="card-heading">
+              <h3 class="text-[#002C5C] text-xl font-medium">WebFlow Agency</h3>
+              <p class="text-[#64748B]">Web Designer & Developer</p>
+            </div>
+
+            <p class="text-sm md:text-[16px] text-[#64748B]">
+              Los Angeles, CA • Part-time • $80,000 - $120,000
+            </p>
+
+            <div class="badge-desc">
+              <span
+                class="text-sm md:text-[16px] text-[#002C5C] font-medium bg-[#EEF4FF] py-2 px-3 rounded-md uppercase"
+                >Not Applied</span
+              >
+              <p class="text-sm md:text-[16px] text-[#323B49] mt-3">
+                Create stunning web experiences for high-profile clients. Must
+                have portfolio and experience with modern web design trends.
+              </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons flex gap-2">
+              <button
+                class="btn border border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white"
+              >
+                Interview
+              </button>
+              <button
+                class="btn border border-[#EF4444] text-[#EF4444] hover:bg-[#EF4444] hover:text-white"
+              >
+                Rejected
+              </button>
+            </div>
+          </div>
+          <div>
+            <button
+              id="delete-btn"
+              class="btn w-8 h-8 border border-[#F1F2F4] bg-transparent p-2 rounded-full"
+            >
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-white p-6 flex justify-between rounded-xl">
+          <div class="space-y-5">
+            <!-- card heading -->
+            <div class="card-heading">
+              <h3 class="text-[#002C5C] text-xl font-medium">
+                DataViz Solutions
+              </h3>
+              <p class="text-[#64748B]">Data Visualization Specialist</p>
+            </div>
+
+            <p class="text-sm md:text-[16px] text-[#64748B]">
+              Boston, MA • Full-time • $125,000 - $165,000
+            </p>
+
+            <div class="badge-desc">
+              <span
+                class="text-sm md:text-[16px] text-[#002C5C] font-medium bg-[#EEF4FF] py-2 px-3 rounded-md uppercase"
+                >Not Applied</span
+              >
+              <p class="text-sm md:text-[16px] text-[#323B49] mt-3">
+                Transform complex data into compelling visualizations. Required
+                skills: D3.js, React, and strong analytical thinking.
+              </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons flex gap-2">
+              <button
+                class="btn border border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white"
+              >
+                Interview
+              </button>
+              <button
+                class="btn border border-[#EF4444] text-[#EF4444] hover:bg-[#EF4444] hover:text-white"
+              >
+                Rejected
+              </button>
+            </div>
+          </div>
+          <div>
+            <button
+              id="delete-btn"
+              class="btn w-8 h-8 border border-[#F1F2F4] bg-transparent p-2 rounded-full"
+            >
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-white p-6 flex justify-between rounded-xl">
+          <div class="space-y-5">
+            <!-- card heading -->
+            <div class="card-heading">
+              <h3 class="text-[#002C5C] text-xl font-medium">CloudFirst Inc</h3>
+              <p class="text-[#64748B]">Backend Developer</p>
+            </div>
+
+            <p class="text-sm md:text-[16px] text-[#64748B]">
+              Seattle, WA • Full-time • $140,000 - $190,000
+            </p>
+
+            <div class="badge-desc">
+              <span
+                class="text-sm md:text-[16px] text-[#002C5C] font-medium bg-[#EEF4FF] py-2 px-3 rounded-md uppercase"
+                >Not Applied</span
+              >
+              <p class="text-sm md:text-[16px] text-[#323B49] mt-3">
+                Design and maintain scalable backend systems using Python and
+                AWS. Work with modern DevOps practices and cloud infrastructure.
+              </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons flex gap-2">
+              <button
+                class="btn border border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white"
+              >
+                Interview
+              </button>
+              <button
+                class="btn border border-[#EF4444] text-[#EF4444] hover:bg-[#EF4444] hover:text-white"
+              >
+                Rejected
+              </button>
+            </div>
+          </div>
+          <div>
+            <button
+              id="delete-btn"
+              class="btn w-8 h-8 border border-[#F1F2F4] bg-transparent p-2 rounded-full"
+            >
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+    </section>
+  </body>
 </html>
