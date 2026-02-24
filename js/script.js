@@ -60,13 +60,16 @@ function toggleButton(id) {
     allCards.classList.add("hidden");
     filterSection.classList.remove("hidden");
     renderInterview();
+    checkNoJobs();
   } else if (id == "all-btn") {
     allCards.classList.remove("hidden");
     filterSection.classList.add("hidden");
+    checkNoJobs();
   } else if (id == "rejected-btn") {
     allCards.classList.add("hidden");
     filterSection.classList.remove("hidden");
     renderRejected();
+    checkNoJobs();
   }
 
   calculateCount();
@@ -209,6 +212,7 @@ mainContainer.addEventListener("click", function (event) {
     }
 
     calculateCount();
+    checkNoJobs();
   }
 });
 
@@ -271,6 +275,8 @@ function renderInterview() {
             </button>
           </div>`;
     filterSection.appendChild(div);
+
+    checkNoJobs();
   }
 }
 
@@ -333,5 +339,25 @@ function renderRejected() {
             </button>
           </div>`;
     filterSection.appendChild(div);
+
+    checkNoJobs();
+  }
+}
+
+// check if no jobs
+function checkNoJobs() {
+  let noJobs = document.getElementById("no-jobs");
+  let currentCards;
+
+  if (currentStatus === "all-btn") {
+    currentCards = allCards.children.length;
+  } else {
+    currentCards = filterSection.children.length;
+  }
+
+  if (currentCards === 0) {
+    noJobs.classList.remove("hidden");
+  } else {
+    noJobs.classList.add("hidden");
   }
 }
