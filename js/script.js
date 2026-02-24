@@ -43,3 +43,113 @@ function toggleButton(id) {
   selected.classList.remove("bg-transparent", "text-[#64748B]");
   selected.classList.add("bg-[#3B82F6]", "text-white");
 }
+
+// event delegation
+mainContainer.addEventListener("click", function (event) {
+  if (event.target.classList.contains("interview-btn")) {
+    const parentNode = event.target.parentNode.parentNode.parentNode;
+    //   console.log(parentNode);
+
+    const cardHeader = parentNode.querySelector(".card-header").innerText;
+    const cardSubHeader =
+      parentNode.querySelector(".card-sub-header").innerText;
+    const jobStatus = parentNode.querySelector(".job-status").innerText;
+    const cardBadge = parentNode.querySelector(".card-badge").innerText;
+    const badgeDesc = parentNode.querySelector(".badge-desc").innerText;
+    const interviewBtn = parentNode.querySelector(".interview-btn").innerText;
+    const rejectedBtn = parentNode.querySelector(".rejected-btn").innerText;
+    //   console.log(interviewBtn, rejectedBtn);
+
+    // create object
+    cardInfo = {
+      cardHeader,
+      cardSubHeader,
+      jobStatus,
+      cardBadge,
+      badgeDesc,
+      interviewBtn,
+      rejectedBtn,
+    };
+
+    //   console.log(cardInfo);
+
+    const headerExist = interviewList.find(function (item) {
+      return item.cardHeader == cardInfo.cardHeader;
+    });
+
+    const badgeStatus = parentNode.querySelector(".card-badge");
+
+    badgeStatus.innerText = "Interview";
+    badgeStatus.className =
+      "text-sm md:text-[16px] text-[#002C5C] font-medium border border-[#10B981] text-[#10B981] py-2 px-3 rounded-md uppercase";
+
+    if (!headerExist) {
+      interviewList.push(cardInfo);
+    }
+    //   console.log("Interview List", interviewList);
+
+    renderInterview();
+  }
+});
+
+// render interview section
+function renderInterview() {
+  filterSection.innerHTML = "";
+
+  // create card element
+  for (let interview of interviewList) {
+    console.log(interview);
+
+    let div = document.createElement("div");
+    div.className = "bg-white p-6 flex justify-between rounded-xl";
+    div.innerHTML = ` <div class="space-y-5">
+            <!-- card heading -->
+            <div>
+              <h3 class="card-header text-[#002C5C] text-xl font-medium">
+                Mobile First Corp
+              </h3>
+              <p class="card-sub-header text-[#64748B]">
+                React Native Developer
+              </p>
+            </div>
+
+            <p class="job-status text-sm md:text-[16px] text-[#64748B]">
+              Remote • Full-time • $130,000 - $175,000
+            </p>
+
+            <div>
+              <span
+                class="card-badge text-sm md:text-[16px] text-[#002C5C] font-medium bg-[#EEF4FF] py-2 px-3 rounded-md uppercase"
+                >Not Applied</span
+              >
+              <p class="badge-desc text-sm md:text-[16px] text-[#323B49] mt-3">
+                Build cross-platform mobile applications using React Native.
+                Work on products used by millions of users worldwide.
+              </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons flex gap-2">
+              <button
+                class="interview-btn btn border border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white"
+              >
+                Interview
+              </button>
+              <button
+                class="rejected-btn btn border border-[#EF4444] text-[#EF4444] hover:bg-[#EF4444] hover:text-white"
+              >
+                Rejected
+              </button>
+            </div>
+          </div>
+          <div>
+            <button
+              id=""
+              class="delete-btn btn w-8 h-8 border border-[#F1F2F4] bg-transparent p-2 rounded-full"
+            >
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>`;
+    filterSection.appendChild(div);
+  }
+}
