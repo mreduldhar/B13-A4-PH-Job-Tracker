@@ -123,6 +123,7 @@ mainContainer.addEventListener("click", function (event) {
       renderRejected();
     }
     calculateCount();
+    checkNoJobs();
   } else if (event.target.classList.contains("rejected-btn")) {
     const parentNode = event.target.parentNode.parentNode.parentNode;
 
@@ -166,6 +167,7 @@ mainContainer.addEventListener("click", function (event) {
     }
 
     calculateCount();
+    checkNoJobs();
   } else if (event.target.closest(".delete-btn")) {
     // find clicked card
     const clickedCard = event.target.closest(".card-container");
@@ -222,7 +224,7 @@ function renderInterview() {
 
   // create card element
   for (let interview of interviewList) {
-    console.log(interview);
+    // console.log(interview);
 
     let div = document.createElement("div");
     div.className =
