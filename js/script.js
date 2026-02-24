@@ -12,6 +12,8 @@ let totalCount = document.getElementById("total-count");
 let interviewCount = document.getElementById("interview-count");
 let rejectCount = document.getElementById("reject-count");
 
+const jobCount = document.getElementById("job-count");
+
 // console.log(totalCount, interviewCount, rejectCount);
 
 const allCards = document.getElementById("allCards");
@@ -23,6 +25,14 @@ function calculateCount() {
   totalCount.innerText = allCards.children.length;
   interviewCount.innerText = interviewList.length;
   rejectCount.innerText = rejectedList.length;
+  jobCount.innerText = allCards.children.length;
+
+  // job count based on current button
+  if (currentStatus == "interview-btn") {
+    jobCount.innerText = interviewList.length;
+  } else if (currentStatus == "rejected-btn") {
+    jobCount.innerText = rejectedList.length;
+  }
 }
 calculateCount();
 
@@ -58,6 +68,8 @@ function toggleButton(id) {
     filterSection.classList.remove("hidden");
     renderRejected();
   }
+
+  calculateCount();
 }
 
 // event delegation
@@ -100,16 +112,14 @@ mainContainer.addEventListener("click", function (event) {
     }
 
     // remove the interview from rejected list
-    const rejectedList = rejectedList.filter(function (item) {
+    rejectedList = rejectedList.filter(function (item) {
       return item.cardHeader != cardInfo.cardHeader;
     });
 
     if (currentStatus == "rejected-btn") {
       renderRejected();
     }
-
     calculateCount();
-    renderInterview();
   } else if (event.target.classList.contains("rejected-btn")) {
     const parentNode = event.target.parentNode.parentNode.parentNode;
 
@@ -144,7 +154,7 @@ mainContainer.addEventListener("click", function (event) {
     }
 
     // remove the interview from rejected list
-    const interviewList = interviewList.filter(function (item) {
+    interviewList = interviewList.filter(function (item) {
       return item.cardHeader != cardInfo.cardHeader;
     });
 
@@ -153,7 +163,52 @@ mainContainer.addEventListener("click", function (event) {
     }
 
     calculateCount();
-    renderRejected();
+  } else if (event.target.closest(".delete-btn")) {
+    // find clicked card
+    const clickedCard = event.target.closest(".card-container");
+
+    const headerText = clickedCard
+      .querySelector(".card-header")
+      .innerText.trim();
+
+    // console.log("header text: ", headerText);
+
+    // remove from all section
+    const allSectionCards = document.querySelectorAll(
+      "#allCards .card-container",
+    );
+
+    for (const card of allSectionCards) {
+      const header = card.querySelector(".card-header").innerText.trim();
+
+      if (header === headerText) {
+        card.remove();
+      }
+    }
+
+    // remove from Interview list
+    interviewList = interviewList.filter(function (item) {
+      return item.cardHeader.trim() !== headerText;
+    });
+
+    // remove from Rejected list
+    rejectedList = rejectedList.filter(function (item) {
+      return item.cardHeader.trim() !== headerText;
+    });
+
+    // remove from filtered section (if exists)
+    clickedCard.remove();
+
+    // re-render
+    if (currentStatus === "interview-btn") {
+      renderInterview();
+    }
+
+    if (currentStatus === "rejected-btn") {
+      renderRejected();
+    }
+
+    calculateCount();
   }
 });
 
@@ -166,7 +221,8 @@ function renderInterview() {
     console.log(interview);
 
     let div = document.createElement("div");
-    div.className = "bg-white p-6 flex justify-between rounded-xl";
+    div.className =
+      "card-container bg-white p-6 flex justify-between rounded-xl";
     div.innerHTML = ` <div class="space-y-5">
             <!-- card heading -->
             <div>
@@ -227,7 +283,8 @@ function renderRejected() {
     // console.log(reject);
 
     let div = document.createElement("div");
-    div.className = "bg-white p-6 flex justify-between rounded-xl";
+    div.className =
+      "card-container bg-white p-6 flex justify-between rounded-xl";
     div.innerHTML = ` <div class="space-y-5">
             <!-- card heading -->
             <div>
